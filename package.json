@@ -1,0 +1,11 @@
+{
+    "name": "nc_client_notifier",
+    "dependencies": {
+        "body-parser": "^1.16.1",
+        "express": "^4.14.1",
+        "socket.io": "^1.7.2"
+    },
+    "scripts": {
+        "start": "node ./nc_client_notifier.js"
+    }
+}
