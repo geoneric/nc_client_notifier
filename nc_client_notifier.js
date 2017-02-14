@@ -1,10 +1,10 @@
 var app = require("express")();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
-var bodyParser = require("body-parser");
+var http_server = require("http").Server(app);
+var io = require("socket.io")(http_server);
+var body_parser = require("body-parser");
 
 
-app.use(bodyParser.json());
+app.use(body_parser.json({strict: false, limit: "1mb"}));
 
 
 // Echo the client's ID back to them when they connect.
@@ -15,18 +15,17 @@ io.on("connection", function(client) {
 });
 
 
+
+
 // Forward task results to the clients who initiated them.
 app.post("/notify", function(request, response) {
 
     var client = io.sockets.connected[request.body.client_id];
     client.emit("notify", JSON.stringify(request.body.result));
 
-    // response.type("text/plain");
-    // response.send("Result broadcast to client");
-
     response.status(201).end();
 
 });
 
 
-server.listen(8080);
+http_server.listen(8080);
